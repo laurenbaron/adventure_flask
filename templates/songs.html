@@ -5,13 +5,13 @@
     <title>{{ name }}</title>
 </head>
 <body>
-    <embed name="sandcastles" src="/static/08 Sandcastles.m4a"width="150" height="90" loop="false" autostart="false">
-    <embed name="formation" src="/static/12 Formation.m4a"width="150" height="90" loop="false" autostart="false">
-
-    <p>Based on the two downloads of Beyoncé's songs, click the corresponding button for what song to play for Beyoncé
-    while she gets ready :) </p><br>
-
-    <a href='/chose/wrong/'><button name="Sandcastles">Sandcastles</button>
-    <a href='/chose/right/'><button name="Formation">Formation</button><br>
+    <audio controls>
+        <source src="/static/08 Sandcastles.m4a" />
+    </audio>
+    <a href='/chose/wrong/'><button name="Sandcastles" style="width:100px;height:90px">Click Here For Sandcastles</button><br>
+     <audio controls>
+        <source src="/static/12 Formation.m4a" />
+    </audio>
+    <a href='/chose/right/'><button name="Formation" style="width:100px;height:90px">Click Here For Formation</button><br>
 </body>
 </html>
