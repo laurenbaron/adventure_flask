@@ -7,13 +7,6 @@ GAME_HEADER = """
 <p>At any time you can <a href='/reset/'>reset</a> your game.</p>
 """
 
-unused_worlds=[{"template": "breakfast.html", "name": "breakfast"},
-                       {"template": "songs.html", "name": "song selection"},
-                       {"template": "dresses.html", "name": "dresses"},
-                       {"template": "passtime.html", "name": "passing time"}]
-
-re_add=[]
-
 @simple_route('/')
 def hello(world: dict) -> str:
     """
@@ -21,6 +14,10 @@ def hello(world: dict) -> str:
     :param world: The current world
     :return: The HTML to show the player
     """
+    world['pages']=[{"template": "breakfast.html", "name": "breakfast"},
+                       {"template": "songs.html", "name": "song selection"},
+                       {"template": "dresses.html", "name": "dresses"},
+                       {"template": "passtime.html", "name": "passing time"}]
     return GAME_HEADER+"""It’s your first day on the job and Beyoncé is getting ready for a red carpet! <br>
     <img src="/static/beyoncegif.gif" alt="beyonce sassy gif"><br><br>
     <a href="/next/"><button name="startButton">Start your day!</button><br>
@@ -51,7 +48,7 @@ ENCOUNTER_RIGHT= GAME_HEADER+"""Congrats you chose correctly! You live to surviv
 
 WON=GAME_HEADER+"""CONGRATULATIONS!!!
     You have succeeded in helping Beyoncé get ready for her red carpet appearance
-    without getting fired! <a href='/'>You can play again </a> or show off your accomplishment with this certificate!
+    without getting fired! Show off your accomplishment with this certificate!
     <img src="/static/certificate-page-001.jpg" alt="congrats" width="1300" height="900">
     """
 
@@ -65,14 +62,13 @@ def decide(world: dict) -> str:
     :param where: The new location to move to
     :return: The HTML to show the player
     """
-    if len(unused_worlds)==0:
-        for world in re_add:
-            unused_worlds.append(world)
+    if len(world['pages'])==0:
+        #for page in re_add:
+        #    unused_worlds.append(page) #reset the list of worlds from the temp variable
         return WON
-    next_world = random.choice(unused_worlds)
-    output=GAME_HEADER + ENCOUNTER_DECISION.format(next_world["name"])+render_template(next_world["template"])
-    unused_worlds.remove(next_world)
-    re_add.append(next_world)
+    next_world = random.choice(world['pages']) #randomly select the page they go to
+    output=GAME_HEADER + ENCOUNTER_DECISION.format(next_world["name"]) + render_template(next_world["template"])
+    world['pages'].remove(next_world)
     return output
 
 
@@ -85,10 +81,8 @@ def chose(world: dict, what: str) -> str:
      :param where: The new location to move to
      :return: The HTML to show the player
      """
-    world['decision'] = what
-    if world['decision']=="wrong":
-        for world in re_add:
-            unused_worlds.append(world)
+    world['user decision'] = what
+    if world['user decision']=="wrong":
         return ENCOUNTER_WRONG
-    if world['decision']=="right":
+    if world['user decision']=="right":
         return ENCOUNTER_RIGHT
