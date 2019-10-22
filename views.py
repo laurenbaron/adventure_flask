@@ -2,11 +2,6 @@ from flask import render_template
 from route_helper import simple_route
 import random
 
-GAME_HEADER = """
-<h1>Be Beyoncé's assistant for a day! Don't get fired...</h1>
-<p>At any time you can <a href='/reset/'>reset</a> your game.</p>
-"""
-
 @simple_route('/')
 def hello(world: dict) -> str:
     """
@@ -18,7 +13,7 @@ def hello(world: dict) -> str:
                        {"template": "songs.html", "name": "song selection"},
                        {"template": "dresses.html", "name": "dresses"},
                        {"template": "passtime.html", "name": "passing time"}]
-    return GAME_HEADER+"""It’s your first day on the job and Beyoncé is getting ready for a red carpet! <br>
+    return render_template("header.html")+"""It’s your first day on the job and Beyoncé is getting ready for a red carpet! <br>
     <img src="/static/beyoncegif.gif" alt="beyonce sassy gif"><br><br>
     <a href="/next/"><button name="startButton">Start your day!</button><br>
     """
@@ -28,7 +23,7 @@ ENCOUNTER_DECISION = """
     You are helping Beyoncé with {}. You must make a decision by clicking the picture you wish to bring to Beyoncé!<br><br>
     """
 
-ENCOUNTER_WRONG = GAME_HEADER + """You have made the wrong decision for Beyoncé!!! She has her lawyers send you 
+ENCOUNTER_WRONG = """You have made the wrong decision for Beyoncé!!! She has her lawyers send you 
     termination letter :( <br><br>
             
     <embed name="run the world" src="/static/Beyoncé - Broken-Hearted Girl (Video).mp4"width="600" height="400" 
@@ -37,7 +32,7 @@ ENCOUNTER_WRONG = GAME_HEADER + """You have made the wrong decision for Beyoncé
     <a href='/reset/'>Return to the start</a>
     """
 
-ENCOUNTER_RIGHT= GAME_HEADER+"""Congrats you chose correctly! You live to survive another day as Beyoncé's assistant...
+ENCOUNTER_RIGHT = """Congrats you chose correctly! You live to survive another day as Beyoncé's assistant...
     <br><br>
         
     <embed name="run the world" src="/static/Beyoncé - Run the World (Girls) (Video - Main Version).mp4"width="600" 
@@ -46,9 +41,11 @@ ENCOUNTER_RIGHT= GAME_HEADER+"""Congrats you chose correctly! You live to surviv
     <a href='/next/'>Continue to the next task</a>
     """
 
-WON=GAME_HEADER+"""CONGRATULATIONS!!!
+WON="""
+    <div class="alert alert-light" role="alert">CONGRATULATIONS!!!
     You have succeeded in helping Beyoncé get ready for her red carpet appearance
     without getting fired! Show off your accomplishment with this certificate!
+    </div>
     <img src="/static/certificate-page-001.jpg" alt="congrats" width="1300" height="900">
     """
 
@@ -63,12 +60,24 @@ def decide(world: dict) -> str:
     :return: The HTML to show the player
     """
     if len(world['pages'])==0:
-        #for page in re_add:
-        #    unused_worlds.append(page) #reset the list of worlds from the temp variable
-        return WON
+        return render_template("header.html")+WON+"""<br>Your Progress: <br><div class="progress-bar bg-danger"><div class="progress-bar" role="progressbar" 
+        style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>"""
     next_world = random.choice(world['pages']) #randomly select the page they go to
-    output=GAME_HEADER + ENCOUNTER_DECISION.format(next_world["name"]) + render_template(next_world["template"])
+    output=render_template("header.html") + ENCOUNTER_DECISION.format(next_world["name"]) + render_template(next_world["template"])
     world['pages'].remove(next_world)
+    #progress bar at bottom of game. WHY DOES "YOUR PROGRESS" ACT AS A LINK??????
+    if len(world['pages'])==1:
+        output+="""<br>Your Progress: <br><div class="progress"><div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75"
+         aria-valuemin="0" aria-valuemax="100"></div></div>"""
+    if len(world['pages'])==2:
+        output+="""<br>Your Progress: <br><div class="progress"><div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50" 
+        aria-valuemin="0" aria-valuemax="100"></div></div>"""
+    if len(world['pages'])==3:
+        output+="""<br>Your Progress: <br><div class="progress"><div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" 
+        aria-valuemin="0" aria-valuemax="100"></div></div>"""
+    if len(world['pages'])==4:
+        output+="""<br>Your Progress: <br><div class="progress"><div class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="0" 
+        aria-valuemin="0" aria-valuemax="100"></div></div>"""
     return output
 
 
@@ -83,6 +92,6 @@ def chose(world: dict, what: str) -> str:
      """
     world['user decision'] = what
     if world['user decision']=="wrong":
-        return ENCOUNTER_WRONG
+        return render_template("header.html")+ENCOUNTER_WRONG
     if world['user decision']=="right":
-        return ENCOUNTER_RIGHT
+        return render_template("header.html")+ENCOUNTER_RIGHT
