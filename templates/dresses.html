@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{name}}</title>
+    {% extends "header.html" %}
+
+    {% block header %}
+    <title>{{ helping_with }}</title>
+    {% endblock %}
 </head>
 <body>
-    <a href='/chose/wrong/'><img src="/static/dress1.jpg" alt="dress option 1" width="200" height="300">
-    <a href='/chose/right/'><img src="/static/dress2.jpg" alt="dress option 2" width="200" height="300"><br>
+    {% block body %}
+    You are helping Beyoncé with {{helping_with}}. You must make a decision by clicking the picture you wish to bring to Beyoncé!<br><br>
+
+    <a href='/chose/wrong/'><img src="/static/dress1.jpg" alt="dress option 1" width="200" height="300"></a>
+    <a href='/chose/right/'><img src="/static/dress2.jpg" alt="dress option 2" width="200" height="300"></a><br>
+    {% endblock %}
 </body>
 </html>

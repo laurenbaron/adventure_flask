@@ -2,16 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ name }}</title>
+    {% extends "header.html" %}
+
+    {% block header %}
+    <title>{{ helping_with }}</title>
+    {% endblock %}
 </head>
 <body>
+    {% block body %}
+    You are helping Beyoncé with {{helping_with}}. You must make a decision by clicking the picture you wish to bring to Beyoncé!<br><br>
+
     <audio controls>
         <source src="/static/08 Sandcastles.m4a" />
     </audio>
-    <a href='/chose/wrong/'><button name="Sandcastles" style="width:100px;height:90px">Click Here For Sandcastles</button><br>
+    <a href='/chose/wrong/'><button name="Sandcastles" style="width:100px;height:90px">Click Here For Sandcastles</button></a><br>
      <audio controls>
         <source src="/static/12 Formation.m4a" />
     </audio>
-    <a href='/chose/right/'><button name="Formation" style="width:100px;height:90px">Click Here For Formation</button><br>
+    <a href='/chose/right/'><button name="Formation" style="width:100px;height:90px">Click Here For Formation</button></a><br>
+    {% endblock %}
 </body>
 </html>

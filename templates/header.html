@@ -2,14 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Game Heading</title>
+    <title>Assisting Beyoncé</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <div class="p-3 mb-2 bg-danger text-white"><h2><span style="font-family: 'Arial Black'; "><p class="text-center">
         Be Beyoncé's assistant for a day! Don't get fired...</p></span></h2></div>
     <p><span style="font-family: 'Arial Rounded MT Bold'; ">At any time you can <a href='/reset/'>reset</a> your game. </p>
     <hr>
+
+    {% block header %}
+    {% endblock %}
 </head>
 <body>
+    {% block body %}
+    {% endblock %}
 </body>
 </html>
