@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request, redirect
 from route_helper import simple_route
 import random
 
@@ -15,23 +15,47 @@ def hello(world: dict) -> str:
                        {"template": "songs.html", "name": "song selection"},
                        {"template": "dresses.html", "name": "dresses"},
                        {"template": "passtime.html", "name": "passing time"}]
-    return render_template("header.html")+"""It’s your first day on the job and Beyoncé is getting ready for a red carpet! <br>
-    <img src="/static/beyoncegif.gif" alt="beyonce sassy gif"><br><br>
-    <a href="/next/"><button name="startButton">Start your day!</button><br>
+    world['fans']=["fake fan","supporter", "LEADER OF THE BEYHIVE"]
+    world['user']={'name':"",
+                    'decision':"",
+                    'fan_level':"",
+                    'promotion':""}
+    return render_template("welcome.html")
+
+@simple_route('/user/')
+def get_user(world: dict)->str:
     """
+    The screen after the welcome that gets the user's name
+    :param world: The current world
+    :return: The HTML to show the player
+    """
+    return render_template("user_info.html", fan_types=world['fans'])
+
+@simple_route('/save/')
+def save(world: dict, *args)->str:
+    """
+    Save the user's input into world dictionary
+    :param world: The current world
+    :return: The next page (start beyonce adventure)
+    """
+    world['user']["name"]=request.values.get('user_name')
+    world['user']['fan_level']=request.values.get('fan_level')
+    index=world['fans'].index(world['user']['fan_level'])
+    if index==2:
+        world['user']['promotion'] = "truly awe-inspiring sorcerer in all things Beyoncé"
+    else:
+        world['user']['promotion'] = world['fans'][index+1]
+    return redirect('/next/')
 
 @simple_route('/next/')
 def decide(world: dict) -> str:
     """
-    Update the player location and encounter a decision, prompting the player
-    to choose a picture.
-
+    Encounter a randomly selected decision for beyonce
     :param world: The current world
-    :param where: The new location to move to
-    :return: The HTML to show the player
+    :return: The HTML to show the player depending on what random page they've been selected to go to
     """
     if len(world['pages'])==0:
-        return render_template("won.html")
+        return render_template("won.html", name=world['user']["name"], old=world['user']['fan_level'], new=world['user']['promotion'])
     else:
         next_world = random.choice(world['pages']) #randomly select the page they go to
         #progress bar at bottom of game
@@ -41,20 +65,20 @@ def decide(world: dict) -> str:
 
         world['pages'].remove(next_world)
 
-        return render_template(next_world["template"], helping_with=next_world["name"])+render_template("progress_bar.html", now_value=value_now, style_value=style)
+        return render_template(next_world["template"], helping_with=next_world["name"])+render_template("progress_bar.html",
+                now_value=value_now, style_value=style)
 
 
 @simple_route('/chose/<what>/')
 def chose(world: dict, what: str) -> str:
     """
-     Determine whether the user chose right or wrong
-
-     :param world: The current world
-     :param where: The new location to move to
-     :return: The HTML to show the player
-     """
-    world['user decision'] = what
-    if world['user decision']=="wrong":
+    Determine whether the user chose right or wrong
+    :param world: The current world
+    :param what: What user chose (right or wrong)
+    :return: The HTML to show the player
+    """
+    world['user']['decision'] = what
+    if world['user']['decision']=="wrong":
         return render_template("incorrect.html")
-    if world['user decision']=="right":
+    if world['user']['decision']=="right":
         return render_template("correct.html")

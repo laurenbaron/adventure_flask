@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% extends "header.html" %}
+
+    {% block header %}
+    <title>Welcome!</title>
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+    It’s your first day on the job and Beyoncé is getting ready for a red carpet! <br>
+    <br><img src="/static/beyoncegif.gif" alt="beyonce sassy gif"><br><br>
+    <a href="/user/"><button name="startButton">Continue</button></a><br>
+    {% endblock %}
+</body>
+</html>

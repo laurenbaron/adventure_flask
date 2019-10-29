@@ -10,9 +10,10 @@
 </head>
 <body>
     {% block body %}
-    <div class="alert alert-light" role="alert">CONGRATULATIONS!!!
-    You have succeeded in helping Beyoncé get ready for her red carpet appearance
-    without getting fired! Show off your accomplishment with this certificate!
+    <div class="alert alert-light" role="alert"><p>CONGRATULATIONS, {{ name }}!!!<br>
+        You have succeeded in helping Beyoncé get ready for her red carpet appearance without getting fired!<br>
+        It is safe to say that you must know Beyoncé pretty well...You have been promoted from a {{ old }} to a {{ new }}!<br>
+        Show off your accomplishment with this certificate!</p>
     </div>
     <img src="/static/certificate-page-001.jpg" alt="congrats" width="1300" height="900">
     {% endblock %}
