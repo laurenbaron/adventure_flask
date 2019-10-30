@@ -11,12 +11,12 @@ def hello(world: dict) -> str:
     :param world: The current world
     :return: The HTML to show the player
     """
-    world['pages']=[{"template": "breakfast.html", "name": "breakfast"},
-                       {"template": "songs.html", "name": "song selection"},
-                       {"template": "dresses.html", "name": "dresses"},
-                       {"template": "passtime.html", "name": "passing time"}]
-    world['fans']=["fake fan","supporter", "LEADER OF THE BEYHIVE"]
-    world['user']={'name':"",
+    world['pages']=[{'template': "breakfast.html", 'name': "breakfast"},
+                       {'template': "songs.html", 'name': "song selection"},
+                       {'template': "dresses.html", 'name': "dresses"},
+                       {'template': "passtime.html", 'name': "passing time"}]
+    world['fans']=['fake fan','supporter', 'LEADER OF THE BEYHIVE']
+    world['user']={'first name':"",
                     'decision':"",
                     'fan_level':"",
                     'promotion':""}
@@ -38,7 +38,10 @@ def save(world: dict, *args)->str:
     :param world: The current world
     :return: The next page (start beyonce adventure)
     """
-    world['user']["name"]=request.values.get('user_name')
+    if len(request.values.get('user_name'))>0:
+        world['user']['name']=request.values.get('user_name')
+    else:
+        world['user']['name']="Anonymous User"
     world['user']['fan_level']=request.values.get('fan_level')
     index=world['fans'].index(world['user']['fan_level'])
     if index==2:
@@ -55,7 +58,7 @@ def decide(world: dict) -> str:
     :return: The HTML to show the player depending on what random page they've been selected to go to
     """
     if len(world['pages'])==0:
-        return render_template("won.html", name=world['user']["name"], old=world['user']['fan_level'], new=world['user']['promotion'])
+        return render_template("won.html", name=world['user']['name'], old=world['user']['fan_level'], new=world['user']['promotion'])
     else:
         next_world = random.choice(world['pages']) #randomly select the page they go to
         #progress bar at bottom of game
@@ -65,7 +68,7 @@ def decide(world: dict) -> str:
 
         world['pages'].remove(next_world)
 
-        return render_template(next_world["template"], helping_with=next_world["name"])+render_template("progress_bar.html",
+        return render_template(next_world['template'], helping_with=next_world['name'])+render_template("progress_bar.html",
                 now_value=value_now, style_value=style)
 
 

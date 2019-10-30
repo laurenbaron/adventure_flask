@@ -18,15 +18,15 @@
 </head>
 <body>
     {% block body %}
-    <div class="alert alert-light" role="alert"><p>CONGRATULATIONS, {{ name }}!!!<br>
-        You have succeeded in helping Beyoncé get ready for her red carpet appearance without getting fired!<br>
-        It is safe to say that you must know Beyoncé pretty well...You have been promoted from a {{ old }} to a {{ new }}!<br>
-        Show off your accomplishment with this certificate or <a href='/reset/'>play again</a> </p>
-    </div>
         <div class="container">
+  <div class="jumbotron">
+    <h1>CONGRATULATIONS, {{ name }}!!!<br></h1>
+    <p>You have succeeded in helping Beyoncé get ready for her red carpet appearance without getting fired!<br>
+        It is safe to say that you must know Beyoncé pretty well...You have been promoted from a {{ old }} to a {{ new }}!<br>
+        Show off your accomplishment with this customized certificate or <a href='/reset/'>play again</a> </p>
+  </div>
             <img src="/static/certificate.jpg" alt="congrats" style="width:100%;">
             <div class="centered"><span style="font-size: xx-large; ">{{name}}</span></div>
-</div>
 
     {% endblock %}
 </body>
