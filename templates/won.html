@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    {% extends "header.html" %}
-
-    {% block header %}
-    <title>Congratulations!</title>
-    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.container {
+  position: relative;
+  text-align: center;
+  color: black;
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
 </head>
 <body>
     {% block body %}
     <div class="alert alert-light" role="alert"><p>CONGRATULATIONS, {{ name }}!!!<br>
         You have succeeded in helping Beyoncé get ready for her red carpet appearance without getting fired!<br>
         It is safe to say that you must know Beyoncé pretty well...You have been promoted from a {{ old }} to a {{ new }}!<br>
-        Show off your accomplishment with this certificate!</p>
+        Show off your accomplishment with this certificate or <a href='/reset/'>play again</a> </p>
     </div>
-    <img src="/static/certificate-page-001.jpg" alt="congrats" width="1300" height="900">
+        <div class="container">
+            <img src="/static/certificate.jpg" alt="congrats" style="width:100%;">
+            <div class="centered"><span style="font-size: xx-large; ">{{name}}</span></div>
+</div>
+
     {% endblock %}
 </body>
 </html>
