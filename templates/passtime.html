@@ -5,15 +5,15 @@
     {% extends "header.html" %}
 
     {% block header %}
-    <title>{{ helping_with }}</title>
+        <title>{{ helping_with }}</title>
     {% endblock %}
 </head>
 <body>
     {% block body %}
-    You are helping Beyoncé with {{helping_with}}. You must make a decision by clicking the picture you wish to bring to Beyoncé!<br><br>
+        You are helping Beyoncé with {{helping_with}}. You must make a decision by clicking the picture you wish to bring to Beyoncé!<br><br>
 
-    <a href='/chose/wrong/'><img src="/static/read.jpg" alt="pass time option 1" width="300" height="200"></a>
-    <a href='/chose/right/'><img src="/static/swim.jpeg" alt="pass time option 2"width="300" height="200"></a><br>
+        <a href='/chose/wrong/'><img src="/static/read.jpg" alt="pass time option 1" width="300" height="200"></a>
+        <a href='/chose/right/'><img src="/static/swim.jpeg" alt="pass time option 2"width="300" height="200"></a><br>
     {% endblock %}
 </body>
 </html>
